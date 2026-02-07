@@ -27,8 +27,6 @@ The system is organized as a **Directed Acyclic Graph (DAG)** of reasoners, coor
 | **Strategy Validator** | `Reasoner` | **Quality Assurance**. Reviews the proposed plan against risk tolerance. Can **reject** unsafe advice. | *The Risk Officer* |
 | **Scenario Simulator** | `Reasoner` | **Simulation**. Modifies the user's profile (e.g., -10% income) and triggers a re-planning cycle. | *The Stress Tester* |
 
-#### 💾 Shared Memory
-We use AgentField's shared state to maintain the user's "Financial Context" across different agents. This ensures the *Risk Officer* knows what the *Analyst* found without needing to re-read the raw data.
 
 ---
 
