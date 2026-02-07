@@ -22,7 +22,7 @@ Located in `financial_backend/agents/`:
     6.  Aggregates results.
 
 ### 2. Core Infrastructure
-*   **API** (`financial_backend/api.py`): A FastAPI application exposing endpoints to interact with the system.
+*   **Main Entry Point** (`financial_backend/main.py`): The AgentField application entry point that registers agents and starts the server.
 *   **Config** (`financial_backend/config.py`): Configures the AgentField app and LLM provider (using local Ollama by default).
 *   **Memory** (`financial_backend/memory.py`): Defines the shared state models using Pydantic.
 *   **Utils** (`financial_backend/utils.py`): Helper functions for robust JSON parsing from AI responses.
@@ -58,15 +58,17 @@ You can interact with the agent using `curl` commands.
 Send a user profile to generate a comprehensive financial plan.
 
 ```bash
-curl -X POST http://localhost:8002/generate-strategy \
+curl -X POST http://localhost:8002/reasoners/orchestrate_strategy_generation \
   -H "Content-Type: application/json" \
   -d '{
-    "income": 5000,
-    "expenses": 3500,
-    "savings": 10000,
-    "debt": 2000,
-    "risk_tolerance": "medium",
-    "goal": "long-term growth"
+    "profile": {
+        "income": 5000,
+        "expenses": 3500,
+        "savings": 10000,
+        "debt": 2000,
+        "risk_tolerance": "medium",
+        "goal": "long-term growth"
+    }
   }'
 ```
 
@@ -80,11 +82,13 @@ curl -X POST http://localhost:8002/generate-strategy \
 Simulate a financial shock (e.g., income drop).
 
 ```bash
-curl -X POST http://localhost:8002/simulate-scenario \
+curl -X POST http://localhost:8002/reasoners/orchestrate_scenario_simulation \
   -H "Content-Type: application/json" \
   -d '{
-    "scenario": "income_drop",
-    "percentage": 10
+    "scenario_input": {
+        "scenario": "income_drop",
+        "percentage": 10
+    }
   }'
 ```
 
