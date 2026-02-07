@@ -78,8 +78,8 @@ curl -X POST http://localhost:8002/reasoners/orchestrate_strategy_generation \
 *   `strategy`: Recommendations for emergency fund, investments, and debt.
 *   `validation`: Risk manager's approval or feedback.
 
-### 2. Simulate Scenario (Stub)
-Simulate a financial shock (e.g., income drop).
+### 2. Simulate Scenario
+Simulate a financial shock (e.g., "income_drop", "expense_spike") and see how the strategy adapts.
 
 ```bash
 curl -X POST http://localhost:8002/reasoners/orchestrate_scenario_simulation \
@@ -87,10 +87,23 @@ curl -X POST http://localhost:8002/reasoners/orchestrate_scenario_simulation \
   -d '{
     "scenario_input": {
         "scenario": "income_drop",
-        "percentage": 10
+        "percentage": 10,
+        "profile": {
+            "income": 5000,
+            "expenses": 3500,
+            "savings": 10000,
+            "debt": 2000,
+            "risk_tolerance": "medium",
+            "goal": "long-term growth"
+        }
     }
   }'
 ```
+
+**Response includes:**
+*   `scenario_applied`: Description of the event.
+*   `simulated_profile`: The new profile after the event.
+*   `adapted_strategy_result`: A full strategy generated for the new profile.
 
 ## Development
 

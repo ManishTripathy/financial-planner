@@ -17,6 +17,8 @@ async def scenario_simulator(
         You are NOT a coding assistant. Do NOT write Python code.
         
         Modify the financial profile based on the scenario.
+        Perform all calculations yourself. Return ONLY the final numbers.
+        Do NOT include mathematical expressions like "5000 - 500" in the JSON values.
         
         Scenarios:
         - "income_drop": Decrease income by percentage.

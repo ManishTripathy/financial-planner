@@ -83,13 +83,41 @@ async def orchestrate_scenario_simulation(scenario_input: Dict[str, Any]) -> Dic
     """
     print("⚠️ Starting Scenario Simulation...", flush=True)
     
-    # For demo simplicity, we assume the profile is passed in or we have it.
-    # If we don't have it in memory (stateless request), we might need it in input.
-    # But let's assume it's in memory or we error out.
-    # current_profile = memory.user_profile
-    # For this demo, we'll return a mock or require profile in input if memory is empty.
+    scenario = scenario_input.get("scenario")
+    percentage = scenario_input.get("percentage")
+    profile = scenario_input.get("profile")
+
+    if not profile:
+        return {"error": "Missing 'profile' in input. Please provide the current financial profile."}
     
-    return {"message": "Scenario simulation not fully implemented in demo orchestrator yet."}
+    if not scenario:
+         return {"error": "Missing 'scenario' in input."}
+
+    # 1. Simulate Scenario
+    print(f"🔄 Simulating scenario: {scenario} ({percentage}%)", flush=True)
+    try:
+        simulated_profile = await scenario_simulator(profile, scenario, percentage)
+        print("✅ Simulation complete.", flush=True)
+    except Exception as e:
+        print(f"ERROR in Scenario Simulator: {e}", flush=True)
+        return {"error": str(e)}
+
+    # 2. Re-run Strategy Generation on new profile
+    print("🔄 Generating adapted strategy...", flush=True)
+    try:
+        # Recursively call the strategy generation orchestrator
+        # Since it is a reasoner, we can call it directly and it will execute
+        new_strategy_result = await orchestrate_strategy_generation(simulated_profile)
+    except Exception as e:
+        print(f"ERROR in Strategy Generation during simulation: {e}", flush=True)
+        return {"error": str(e)}
+    
+    return {
+        "scenario_applied": f"{scenario} ({percentage}%)",
+        "original_profile": profile,
+        "simulated_profile": simulated_profile,
+        "adapted_strategy_result": new_strategy_result
+    }
 
 def get_memory():
     return memory.dict()
