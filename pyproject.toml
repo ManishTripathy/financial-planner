@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "financial-backend"
+version = "0.1.0"
+description = "AgentField Adaptive Financial Planner"
+authors = [{ name = "Agent Field", email = "demo@agentfield.ai" }]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "agentfield",
+    "fastapi",
+    "uvicorn",
+    "requests",
+    "pydantic",
+    "litellm",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["financial_backend*"]

@@ -1,0 +1,34 @@
+from typing import Dict, Any
+from ..config import app
+from ..utils import parse_json_response
+
+@app.reasoner()
+async def strategy_validator(
+    profile: Dict[str, Any],
+    strategy: Dict[str, Any]
+) -> Dict[str, Any]:
+    """
+    Validates the proposed strategy against the profile.
+    """
+    
+    response = await app.ai(
+        system="""You are a risk manager. Validate the proposed financial strategy.
+        Check for:
+        1. Liquidity safety (is there enough emergency fund?)
+        2. Risk consistency (does investment match risk tolerance?)
+        3. Logical contradictions.
+        
+        Output Schema:
+        {
+          "is_valid": boolean,
+          "feedback": "string",
+          "suggested_corrections": "string or null"
+        }
+        """,
+        user=f"""
+        User Profile: {profile}
+        Proposed Strategy: {strategy}
+        """
+    )
+    
+    return parse_json_response(response)
