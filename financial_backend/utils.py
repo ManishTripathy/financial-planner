@@ -43,4 +43,12 @@ def parse_json_response(response: Any) -> Dict[str, Any]:
         return json.loads(text)
     except Exception as e:
         print(f"DEBUG: JSON parse failed: {e}", flush=True)
+        # Attempt to repair missing closing brace
+        if text.strip().startswith("{") and not text.strip().endswith("}"):
+             print("DEBUG: Attempting to repair JSON by appending '}'", flush=True)
+             try:
+                 return json.loads(text + "}")
+             except Exception as e2:
+                 print(f"DEBUG: Repair failed: {e2}", flush=True)
+        
         return {"error": "Failed to parse", "raw": text}
