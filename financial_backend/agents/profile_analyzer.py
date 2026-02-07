@@ -9,7 +9,10 @@ async def analyze_financial_profile(profile: Dict[str, Any]) -> Dict[str, Any]:
     """
     
     response = await app.ai(
-        system="""You are a financial analyst. Analyze the user's financial profile.
+        system="""You are a financial analyst API. Your ONLY job is to analyze data and return JSON.
+        You are NOT a coding assistant. Do NOT write Python code.
+        
+        Analyze the user's financial profile.
         Determine:
         1. Financial Health: "stable", "stressed", or "growing".
            - Stressed: Expenses > Income or High Debt.
@@ -18,7 +21,7 @@ async def analyze_financial_profile(profile: Dict[str, Any]) -> Dict[str, Any]:
         2. Constraints: List of financial limitations.
         3. Priorities: List of financial goals to prioritize.
         
-        Return the result in JSON format matching the schema:
+        Return ONLY valid JSON matching this schema:
         {
           "financial_health": "stable|stressed|growing",
           "constraints": ["string"],

@@ -20,12 +20,14 @@ async def cashflow_projection(income: float, expenses: float) -> Dict[str, Any]:
     
     # Use AI to add context or identify risks (simulated "reasoning" about the numbers)
     response = await app.ai(
-        system="""You are a cashflow expert. Given the calculated financial data, 
-        format the output and identify if there are any immediate risks based on the surplus.
+        system="""You are a cashflow expert API. Your ONLY job is to analyze data and return JSON.
+        You are NOT a coding assistant. Do NOT write Python code.
+        
+        Given the calculated financial data, format the output and identify if there are any immediate risks based on the surplus.
         
         The projection is a flat list for 6 months.
         
-        Return JSON:
+        Return ONLY valid JSON:
         {
           "monthly_surplus": number,
           "projection": [number, number, ...],

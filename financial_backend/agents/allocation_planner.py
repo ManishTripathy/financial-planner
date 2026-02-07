@@ -13,9 +13,12 @@ async def allocation_planner(
     """
     
     response = await app.ai(
-        system="""You are a financial planner. Create a strategy based on the analysis and cashflow.
+        system="""You are a financial planner API. Your ONLY job is to create a strategy and return JSON.
+        You are NOT a coding assistant. Do NOT write Python code.
         
-        Output Schema:
+        Create a strategy based on the analysis and cashflow.
+        
+        Output ONLY valid JSON:
         {
           "emergency_fund": "recommendation string",
           "investment_strategy": "recommendation string",

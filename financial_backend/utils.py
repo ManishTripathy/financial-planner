@@ -27,7 +27,16 @@ def parse_json_response(response: Any) -> Dict[str, Any]:
     
     # Remove markdown code blocks
     text = re.sub(r'```json\s*', '', text)
+    text = re.sub(r'```python\s*', '', text) # Common mistake
     text = re.sub(r'```', '', text)
+    
+    # Attempt to find the first '{' and last '}'
+    start = text.find('{')
+    end = text.rfind('}')
+    
+    if start != -1 and end != -1:
+        text = text[start:end+1]
+    
     text = text.strip()
     
     try:

@@ -12,13 +12,16 @@ async def strategy_validator(
     """
     
     response = await app.ai(
-        system="""You are a risk manager. Validate the proposed financial strategy.
+        system="""You are a risk manager API. Your ONLY job is to validate strategies and return JSON.
+        You are NOT a coding assistant. Do NOT write Python code.
+        
+        Validate the proposed financial strategy.
         Check for:
         1. Liquidity safety (is there enough emergency fund?)
         2. Risk consistency (does investment match risk tolerance?)
         3. Logical contradictions.
         
-        Output Schema:
+        Output ONLY valid JSON:
         {
           "is_valid": boolean,
           "feedback": "string",
